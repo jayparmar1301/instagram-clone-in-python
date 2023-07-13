@@ -12,3 +12,9 @@ def detail(request, id):
     print(user_obj.user_name, user_obj.caption)
 
     return HttpResponse(user_obj)
+
+def login(request):
+    return render(request, 'login.html')
+
+def signup(request):
+    return render(request, 'signup.html')
