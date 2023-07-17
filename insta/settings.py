@@ -25,19 +25,27 @@ SECRET_KEY = 'django-insecure-8#l+$ks_y)vyuu84!%ev!hfhpk&q2z=_x0r_5qm_tmb254jgj)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    # App
+    'insta_app',
+    # Social OAuth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    # Built-in
+    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'insta_app',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +63,7 @@ ROOT_URLCONF = 'insta.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -63,6 +71,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Auth in google
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -74,14 +84,23 @@ WSGI_APPLICATION = 'insta.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#        'default': {
+#            'ENGINE': 'djongo',
+#            'NAME': 'insta_db',
+#        }
+#    }
+
 DATABASES = {
-       'default': {
-           'ENGINE': 'djongo',
-           'NAME': 'insta_db',
-       }
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'insta_db',
+       'USER': 'postgres',
+       'PASSWORD': 'root',
+       'HOST': 'localhost',
+       'PORT': '5432',
    }
-
-
+}
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -122,3 +141,36 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+SITE_ID = 4
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# LOGIN_REDIRECT_URL = "/"
+
+# ACCOUNT_LOGOUT_REDIRECT_URL = 'login'
+
+# ACCOUNT_EMAIL_REQUIRED = True
+
+# SOCIALACCOUNT_QUERY_EMAIL = True
+
+# ACCOUNT_SESSION_REMEMBER = True
