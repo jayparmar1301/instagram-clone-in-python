@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Instagram Login</title>
+  <title>Instagram Sign Up</title>
   <style>
     body {
       background-color: #fafafa;
@@ -21,29 +21,34 @@
     h1 {
       text-align: center;
       margin-bottom: 30px;
+      color: #405de6;
     }
 
     input[type="text"],
-    input[type="password"] {
+    input[type="password"],
+    input[type="email"] {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
+      padding: 12px;
+      margin-bottom: 20px;
       border: 1px solid #ddd;
-      border-radius: 3px;
+      border-radius: 5px;
+      font-size: 14px;
     }
 
     input[type="submit"] {
       width: 100%;
-      padding: 10px;
-      background-color: #3897f0;
+      padding: 12px;
+      background-color: #405de6;
       color: #fff;
       border: none;
-      border-radius: 3px;
+      border-radius: 5px;
       cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
     }
 
     input[type="submit"]:hover {
-      background-color: #357ae8;
+      background-color: #3146a5;
     }
 
     .text-center {
@@ -58,18 +63,35 @@
       color: #999;
       text-decoration: none;
     }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo img {
+      width: 120px;
+      height: auto;
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Instagram</h1>
-    <form action="/login" method="post">
+    <div class="logo">
+      <img src="https://via.placeholder.com/120" alt="Instagram Logo">
+    </div>
+    <h1>Sign up for Instagram</h1>
+    <form method="post">
+      {% csrf_token %}
+      <!-- <input type="text" name="fullname" placeholder="Full Name" required> -->
       <input type="text" name="username" placeholder="Username" required>
+      <input type="email" name="email" placeholder="Email" required>
       <input type="password" name="password" placeholder="Password" required>
-      <input type="submit" value="Log In">
+      <input type="submit" value="Sign Up">
     </form>
     <div class="text-center text-muted">
-      <p>Don't have an account? <a href="/signup">Sign up</a></p>
+      <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
     </div>
   </div>
 </body>
